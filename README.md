@@ -1,4 +1,4 @@
-NinjaOne Scripts - Various useful [PowerShell](https://microsoft.com/powershell) scripts for [NinjaOne](https://ninjaone.com/) software
+# NinjaOne Scripts - Various useful [PowerShell](https://microsoft.com/powershell) scripts for [NinjaOne](https://ninjaone.com/) software
 
 ## Who am I?
 
