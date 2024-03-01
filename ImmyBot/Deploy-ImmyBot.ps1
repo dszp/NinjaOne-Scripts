@@ -8,6 +8,14 @@
 
     The ImmyBot PowerShell Deployment Script uses NinjaRMM Custom Fields to get the ID and KEY by default (see CONFIG), but they can be passed in as parameters if desired.
 
+    The Ninja Custom Field should be a single string with the following format, space-separated, pulled out of a PowerShell deployment for a specific tenant:
+
+      ID=abe6c78d-1de6-91f3-dde1-eafdev729836 KEY=aj78akdjr3ikKEasdfj58vnaew89SDJKVjFei88FVDS=
+    
+    You can alternately leave the ADDR field in the middle of the custom field value if you don't want to remove it, like this, and it will still work:
+    
+      ID=abe6c78d-1de6-91f3-dde1-eafdev729836 ADDR=https://SUBDOMAIN.immy.bot/plugins/api/v1/1 KEY=aj78akdjr3ikKEasdfj58vnaew89SDJKVjFei88FVDS=
+
     As long as you pass in -ID and -KEY parameters, or provide ID and KEY environment variables, this script will function entirely separate from NinjaRMM.
   .PARAMETER Tenant
     The plain subdomain for the ImmyBot tenant (the part after "https://"" and before ".immy.bot").
