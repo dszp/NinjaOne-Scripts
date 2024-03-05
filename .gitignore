@@ -1,2 +1,4 @@
 *.plist
 .DS_Store
+.fslckout
+.Ulysses*
