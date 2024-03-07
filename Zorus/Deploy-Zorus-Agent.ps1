@@ -1,10 +1,19 @@
 <# Deploy-Zorus-Agent.ps1
-Zorus-provided deployment script for their own agent, customized to pull token from a NinjaRMM custom field and/or allow parameters or Script Variables (-Force and -Uninstall) to install even if already installed, or to uninstall the agent.
+
+Deploy the Zorus Archon Agent, or use -Uninstall parameter to uninstall it. Use -Force to install even if already installed.
+
+Optionally pass the install Token via -Token (parameter or Script Variable), or use custom field as defined under EDIT ME section below.
+
+The custom field can be from a Documentation template or a NinjaRMM Custom Global or Role Field, but regardless of type it requires Automation Read access.
+
+Version 0.1.0 - 2023-03-22 - by David Szpunar - Initial version
+Version 0.2.0 - 2024-03-07 - by David Szpunar - Update formatting, restructure to handle non-Documentation custom fields.
 #>
 [CmdletBinding()]
 param(
   [Parameter(Mandatory = $false)][switch] $Uninstall,
-  [Parameter(Mandatory = $false)][switch] $Force
+  [Parameter(Mandatory = $false)][switch] $Force,
+  [Parameter(Mandatory = $false)][string] $Token
 )
 
 ### PROCESS NINJRAMM SCRIPT VARIABLES AND ASSIGN TO NAMED SWITCH PARAMETERS
@@ -37,43 +46,56 @@ foreach ($param in $switchParameters.keys) {
 #Service Name (validate if already installed)
 $ServiceName = "Zorus Archon"
 
-# Deployment Token Documentation Field Name
+# Ninja Documentation Template Name (BLANK this to use Custom Field/Role Field rather than Documetation Custom Field!)
+$doc_template = 'Deployments'
+
+# Deployment Token Custom Field Name (required Automation Read access, is Custom Global or Role Field unless Documentation Template provided above)
 $token_field = "zorusDeploymentToken"
 
 ##############################
 # DO NOT EDIT PAST THIS POINT
 ##############################
 
-$token = '' #Initialize
-$Token = Ninja-Property-Docs-Get 'Deployments' 'Deployments' $token_field
-
-if ($Token.Length -lt 51 -and !$uninstall) {
-  Write-Host "Deployment code is too short or invalid, set valid $token_field field in documentation. "
-  Write-Host "Format should be alphanumeric and 52 characters long"
-  exit 1
-}
-elseif ($Token -NotMatch "^[a-zA-Z00-9]{52}$" -and !$uninstall) {
-  Write-Host "No Deployment Code field defined or invalid format, set valid $token_field field in documentation. "
-  Write-Host "Format should be alphanumeric and 52 characters long"
-  exit 1
-}
-elseif (!$uninstall) {
-  Write-Host "Continuing to install with the provided $token_field. "
-  Write-Host "First 10 characters of Deployment Token from Documentation Field:" $Token.Substring(0, 10)
-}
-else {
-  Write-Host "Continuing to uninstall the Zorus Archon agent. "
-}
-
-# Orig Script:
-#$Token = "token here";
-
 # Configure preferred TLS versions in order and disable progress bar to speed downloads.
 [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
 $ProgressPreference = 'SilentlyContinue'
 
-# If ([string]::IsNullOrEmpty($Uninstall)) {
 If (!$Uninstall) {
+  if ([string]::IsNullOrWhiteSpace($Token)) {
+    if ([string]::IsNullOrWhiteSpace($doc_template)) {
+      $Token = Ninja-Property-Docs-Get-Single "$doc_template" "$token_field"
+    }
+    else {
+      $Token = Ninja-Property-Get "$token_field"
+    }
+  }
+
+  if ($Token.Length -lt 51 -and !$Uninstall) {
+    Write-Host "Deployment code is too short or invalid, set valid $token_field field. "
+    Write-Host "Format should be alphanumeric and 52 characters long"
+    if ($doc_template) {
+      Write-Host "(from documentation template $doc_template)"
+    }
+    exit 1
+  }
+  elseif ($Token -NotMatch "^[a-zA-Z00-9]{52}$" -and !$Uninstall) {
+    Write-Host "No Deployment Code field defined or invalid format, set valid $token_field field. "
+    Write-Host "Format should be alphanumeric and 52 characters long"
+    if ($doc_template) {
+      Write-Host "(from documentation template $doc_template)"
+    }
+    exit 1
+  }
+  else {
+    Write-Host "Continuing to install with the provided $token_field. "
+    Write-Host "First 10 characters of Deployment Token from Custom Field:" $Token.Substring(0, 10)
+    if ($doc_template) {
+      Write-Host "(from documentation template $doc_template)"
+    }
+  }
+
+  # Orig Script:
+  #$Token = "token here";
 
   # Determine wether or not Archon is currently installed
   $IsInstalled = $false
@@ -130,6 +152,7 @@ If (!$Uninstall) {
 }
 Else {
   # Uninstall
+  Write-Host "Continuing to uninstall the Zorus Archon agent. "
   $source = "http://static.zorustech.com.s3.amazonaws.com/downloads/ZorusAgentRemovalTool.exe"
   $destination = "$env:TEMP\ZorusAgentRemovalTool.exe"
 
