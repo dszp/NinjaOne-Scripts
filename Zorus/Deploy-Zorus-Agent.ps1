@@ -62,7 +62,7 @@ $ProgressPreference = 'SilentlyContinue'
 
 If (!$Uninstall) {
   if ([string]::IsNullOrWhiteSpace($Token)) {
-    if ([string]::IsNullOrWhiteSpace($doc_template)) {
+    if (![string]::IsNullOrWhiteSpace($doc_template)) {
       $Token = Ninja-Property-Docs-Get-Single "$doc_template" "$token_field"
     }
     else {
