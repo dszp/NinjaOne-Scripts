@@ -8,6 +8,7 @@ The custom field can be from a Documentation template or a NinjaRMM Custom Globa
 
 Version 0.1.0 - 2023-03-22 - by David Szpunar - Initial version
 Version 0.2.0 - 2024-03-07 - by David Szpunar - Update formatting, restructure to handle non-Documentation custom fields.
+Version 0.2.1 - 2024-03-11 - by David Szpunar - Tweak documentation field logic from last update to choose doc/custom field selection properly
 #>
 [CmdletBinding()]
 param(
