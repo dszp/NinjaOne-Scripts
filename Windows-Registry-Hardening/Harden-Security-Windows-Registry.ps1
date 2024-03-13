@@ -11,6 +11,7 @@ those are configured.
 
 Version 0.0.1 - 2023-12-27 - Initial release by David Szpunar
 Version 0.0.2 - 2024-03-12 - Updated to properly set (or fix) the registry value type to DWord when needed, rather than always using REG_SZ (string).
+Version 0.0.3 - 2024-03-12 - Updated to disable NetBIOS over TCP/IP (NBT-NS) for physical network adapters.
 #>
 
 # SOURCE: https://discord.com/channels/676451788395642880/1063257007324414004/1187116607500197908 by Mikey O'Toole.
@@ -125,6 +126,44 @@ Registry.ShouldBe -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\LSA' -Name 'LmCo
 Write-Host "Disabling Autorun(Autoplay) on all drives..."
 Registry.ShouldBe -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\Explorer' -Name 'NoDriveTypeAutorun' -Value 255 -Type 'DWord'
 Registry.ShouldBe -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\Explorer' -Name 'NoAutorun' -Value 0x01 -Type 'DWord'
+
+##### NBT-NS Disable ####
+<# Disable NetBIOS over TCP/IP (NBT-NS) via PowerShell
+ORIGINAL SOURCE: https://www.reddit.com/r/sysadmin/comments/sjra2q/disable_llmnr_and_nbtns/
+CURRENT SOURCE: https://www.reddit.com/r/PowerShell/comments/buh3ln/comment/epi7fg4/?utm_source=share&utm_medium=web2x&context=3
+    CREDIT: https://www.reddit.com/user/PinchesTheCrab/
+Information on disabling via DHCP for dynamic IPs using Windows DHCP Server:
+     https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/disable-netbios-tcp-ip-using-dhcp
+Information on disabling NetBIOS over TCP/IP (NBT-NS) via DHCP when using a Fortinet FortiGate firewall for DHCP: 
+    https://community.fortinet.com/t5/FortiGate/Technical-Tip-How-to-disable-NetBIOS-over-TCP-IP-using-DHCP/ta-p/195730
+#>
+
+Write-Host "Disabling NetBIOS over TCP/IP (NBT-NS) and LMHOST lookup on physical network adapters..."
+$filter = @'
+(Description LIKE '%Intel%'
+    OR Description LIKE '%Realtek%' 
+    OR Description LIKE '%Broadcom%' 
+    OR Description LIKE '%Surface%' 
+    OR Description LIKE '%Marvell%' 
+    OR Description LIKE '%Wireless%'
+)
+    AND TcpipNetbiosOptions <> 2
+'@
+
+# Get-CimInstance Win32_NetworkAdapterConfiguration -Filter $filter |
+#     Invoke-CimMethod -MethodName SetTcpipNetbios -Arguments @{ TcpipNetbiosOptions = 2 }
+
+Get-CimInstance Win32_NetworkAdapterConfiguration -Filter $filter | 
+    ForEach-Object {
+        $regParam = @{
+            Path = 'HKLM:\SYSTEM\CurrentControlSet\Services\NetBT\Parameters\Interfaces\Tcpip_{0}' -f $PSItem.SettingID
+            Name = 'NetbiosOptions'
+            Value = 2
+            Type = 'DWord'
+        }
+        Registry.ShouldBe @regParam
+    }
+##### END NBT-NS Disable #####
 
 # Windows Desktop Only Settings
 Write-Host ""
