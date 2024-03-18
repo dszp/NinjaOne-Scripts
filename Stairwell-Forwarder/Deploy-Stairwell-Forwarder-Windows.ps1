@@ -6,6 +6,7 @@ by David Szpunar, Servant 42, Inc.
 No warranty or suitability for purpose implied, use at your own risk.
 Various parts of this script have been collected from elsewhere and are not entirely original.
 
+Version 1.0.3 - 2024-03-18 - Update Script Variables handling code to latest version with small adjustments
 Version 1.0.2 - 2023-11-13 - Update Script Variables handling to new generalized parsing method
 Version 1.0.1 - 2023-11-10 - Add Script Variables support and -Force switch option
 Version 1.0.0 - 2023-08-24 - Fixes token validation from custom fields (didn't work previously). All current features 
@@ -18,24 +19,27 @@ Version 0.1.0 - 2023-08-23 - Initial deployment script for Stairwell Windows Inc
 Pass the argument -NoScan or -NoInitialScan to skip the initial full breach assessment scan and only add files as 
 they are written, modified, or executed.
 #>
-
 param(
     [switch] $NoInitialScan,
     [switch] $NoScan,
     [switch] $Force,
     [switch] $Uninstall
 )
-### PROCESS NINJRAMM SCRIPT VARIABLES FOR NAMED SWITCH PARAMETERS
+### PROCESS NINJRAMM SCRIPT VARIABLES AND ASSIGN TO NAMED SWITCH PARAMETERS
 # Get all named parameters and overwrite with any matching Script Variables with value of 'true' from environment variables
+# Otherwise, if not a checkbox ('true' string), assign any other Script Variables provided to matching named parameters
 $switchParameters = (Get-Command -Name $MyInvocation.InvocationName).Parameters;
 foreach ($param in $switchParameters.keys) {
     $var = Get-Variable -Name $param -ErrorAction SilentlyContinue;
     if($var) {
         $envVarName = $var.Name.ToLower()
         $envVarValue = [System.Environment]::GetEnvironmentVariable("$envVarName")
-        if ($envVarValue -ne $null -and $envVarValue.ToLower() -eq 'true') {
+        if (![string]::IsNullOrWhiteSpace($envVarValue) -and ![string]::IsNullOrEmpty($envVarValue) -and $envVarValue.ToLower() -eq 'true') {    # Checkbox variables
             $PSBoundParameters[$envVarName] = $true
             Set-Variable -Name "$envVarName" -Value $true -Scope Script
+        } elseif (![string]::IsNullOrWhiteSpace($envVarValue) -and ![string]::IsNullOrEmpty($envVarValue) -and $envVarValue -ne 'false') {       # non-Checkbox string variables
+            $PSBoundParameters[$envVarName] = $envVarValue
+            Set-Variable -Name "$envVarName" -Value $envVarValue -Scope Script
         }
     }
 }
