@@ -43,7 +43,8 @@
     Deploy-ImmyBot.ps1 -Info
     Deploy-ImmyBot.ps1 -Uninstall
 
-Version 0.5.0 - 2024-02-19 - by David Szpunar - Refacotr, add -Tenant, -Upgrade, -Force, -Uninstall, -Info switches and cloud version check function, documentation
+Version 0.5.1 - 2024-03-15 - by David Szpunar - Adjust $ID and $KEY values to fix typos that caused issues for non-custom-field parameters thanks to @HiTechPhilip
+Version 0.5.0 - 2024-02-19 - by David Szpunar - Refactor, add -Tenant, -Upgrade, -Force, -Uninstall, -Info switches and cloud version check function, documentation
 Version 0.0.5 - 2023-11-28 - by David Szpunar - Review and update for new ImmyBot version, minor adjustments
 Version 0.0.1 - 2023-01-26 - by David Szpunar - Initial version by David Szpunar, deployment only if not already installed
 #>
@@ -191,7 +192,7 @@ function Check-ImmyBotIDandKey {
     }
   }
   if([string]::IsNullOrWhiteSpace($IDandKey)) {
-    $IDandKey = "$ID=$KEY KEY=$KEY"
+    $IDandKey = "$ID=$ID KEY=$KEY"
   }
   Write-Verbose "IDandKey Value: $IDandKey"
 
@@ -310,7 +311,7 @@ if ($Uninstall) {
   exit 0
 }
 
-($ID, $KEY) = Check-ImmyBotIDandKey -Tenant $Tenant -Id $KD -Key $KEY
+($ID, $KEY) = Check-ImmyBotIDandKey -Tenant $Tenant -Id $ID -Key $KEY
 
 if (!$Upgrade) {
   If ( Service-Check ) {
