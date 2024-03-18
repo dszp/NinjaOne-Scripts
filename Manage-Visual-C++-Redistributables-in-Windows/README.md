@@ -21,9 +21,11 @@ Some software my stop working properly if VC++ Redistributables are not installe
 issues with apps after cleaning up, you may need to reinstall the app (which often reinstalls the VC++ Redistributable it came with), or 
 install the VC++ Redistributable version manually if it's unsupported. This script can be modified to install other versions, either all 
 versions including unsupported by changing this line: 
+
 `$Redists = Get-VcList | Save-VcRedist -Path $Path | Install-VcRedist -Silent`
 
 to be like this with added `-ExportAll` parameter:
+
 `$Redists = Get-VcList -Export All | Save-VcRedist -Path $Path | Install-VcRedist -Silent`
 
 Or, you can filter the output using Where-Object per the Examples at [https://vcredist.com/get-vclist/#examples](https://vcredist.com/get-vclist/#examples) in order to install only specific versions or architectures. This may be added to this script in a later release, to control which versions to install besides none or "all supported" as it started just removing old versions and the install-supported was added after the fact.
