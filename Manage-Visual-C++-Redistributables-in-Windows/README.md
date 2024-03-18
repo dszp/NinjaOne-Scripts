@@ -38,6 +38,7 @@ This script works with parameters, or via Script Variables with these types and 
 [Checkbox] Install
 
 Your configuration may look something like this for the above:
+
 ![VisualC-Redistributable-Cleanup-ScriptVariables](VisualC-Redistributable-Cleanup-ScriptVariables.png)
 
 ## VC++ Version Note
