@@ -20,23 +20,24 @@ I'm using this both as a Run once immediately script for all of my endpoints to 
 ## Example Output
 Here's what one machine on our system looks like in Report Only mode with the script, with "rule in question" being the driver one that the script is set to add:
 
-Existing ASR Rule Value(s):
+```
 Rule 0 GUID: 01443614-cd74-433a-b99e-2ecdc07bfc25 is set to value Audit
-Rule 1 GUID: 26190899-1602-49e8-8b27-eb1d0a1ce869 is set to value Warn
-Rule 2 GUID: 3b576869-a4ec-4529-8536-b80a7769e899 is set to value Audit
-Rule 3 GUID: 56a863a9-875e-4185-98a7-b882c64b5ce5 is set to value Block (RULE IN QUESTION)
-Rule 4 GUID: 5beb7efe-fd9a-4556-801d-275e5ffc04cc is set to value Block
-Rule 5 GUID: 75668c1f-73b5-4cf0-bb93-3ecf5cb7cc84 is set to value Block
-Rule 6 GUID: 7674ba52-37eb-4a4f-a9a1-f0f9a1619a2c is set to value Block
-Rule 7 GUID: 92e97fa1-2edf-4476-bdd6-9dd0b4dddc7b is set to value Warn
-Rule 8 GUID: 9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2 is set to value Block
-Rule 9 GUID: b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4 is set to value Block
-Rule 10 GUID: be9ba2d9-53ea-4cdc-84e5-9b1eeee46550 is set to value Warn
-Rule 11 GUID: c1db55ab-c21a-4637-bb3f-a12568109d35 is set to value Block
-Rule 12 GUID: d1e49aac-8f56-4280-b9ba-993a6d77406c is set to value Audit
-Rule 13 GUID: d3e037e1-3eb8-44c8-a917-57927947596d is set to value Block
-Rule 14 GUID: d4f940ab-401b-4efc-aadc-ad5f3c50688a is set to value Warn
-Rule 15 GUID: e6db77e5-3df2-4cf1-b95a-636979351e5b is set to value Audit
+Rule 1 GUID: 26190899-1602\~-49e8-8b27-eb1d0a1ce869 is set to value Warn
+Rule 2 GUID: 3b576869-a4ec\~\~-4529-8536-b80a7769e899 is set to value Audit
+Rule 3 GUID: 56a863a9-875e\~\~-4185-98a7-b882c64b5ce5 is set to value Block (RULE IN QUESTION)
+Rule 4 GUID: 5beb7efe-fd9a\~\~-4556-801d-275e5ffc04cc is set to value Block
+Rule 5 GUID: 75668c1f-73b5\~\~-4cf0-bb93-3ecf5cb7cc84 is set to value Block
+Rule 6 GUID: 7674ba52-37eb\~\~-4a4f-a9a1-f0f9a1619a2c is set to value Block
+Rule 7 GUID: 92e97fa1-2edf\~\~-4476-bdd6-9dd0b4dddc7b is set to value Warn
+Rule 8 GUID: 9e6c4e1f-7d60\~\~-472f-ba1a-a39ef669e4b2 is set to value Block
+Rule 9 GUID: b2b3f03d-6a65\~\~-4f7b-a9c7-1c7ef74a9ba4 is set to value Block
+Rule 10 GUID: be9ba2d9-53e\~\~a-4cdc-84e5-9b1eeee46550 is set to value Warn
+Rule 11 GUID: c1db55ab-c21\~\~a-4637-bb3f-a12568109d35 is set to value Block
+Rule 12 GUID: d1e49aac-8f5\~\~6-4280-b9ba-993a6d77406c is set to value Audit
+Rule 13 GUID: d3e037e1-3eb\~\~8-44c8-a917-57927947596d is set to value Block
+Rule 14 GUID: d4f940ab-401\~\~b-4efc-aadc-ad5f3c50688a is set to value Warn
+Rule 15 GUID: e6db77e5-3df\~\~2-4cf1-b95a-636979351e5b is set to value Audit
+```
 
 In a perfect world you set all of them to block, but sometimes you run into user issues that require some tweaks.
 
