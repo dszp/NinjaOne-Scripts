@@ -17,7 +17,7 @@ Remove all versions of Visual C++ Redistributable 2005 and 2010.
 Uninstall all versions of Visual C++ Redistributable, then install all supported versions. This can be quite handy to make sure only the latest patch version is installed, as the specific minor version is often outdated or multiple are installed, and this will ensure only the latest version of only the supported VC++ Redistributable releases are installed.
 
 ### NOTE
-Some software my stop working properly if VC++ Redistributables are not installed that match their needed version! If you run into 
+Some software may stop working properly if VC++ Redistributables are not installed that match their needed version! If you run into 
 issues with apps after cleaning up, you may need to reinstall the app (which often reinstalls the VC++ Redistributable it came with), or 
 install the VC++ Redistributable version manually if it's unsupported. This script can be modified to install other versions, either all 
 versions including unsupported by changing this line: 
