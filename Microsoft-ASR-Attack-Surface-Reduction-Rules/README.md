@@ -18,9 +18,10 @@ The process for enabling ASR rules via PowerShell is documented at: [https://lea
 I'm using this both as a Run once immediately script for all of my endpoints to update them as soon as they come online under management, as well as a run-weekly update to ensure compliance if any get changed, both from a NinjaRMM policy.
 
 ## Example Output
+### Script Output
 Here's what one machine on our system looks like in Report Only mode with the script, with "rule in question" being the driver one that the script is set to add:
 
-Existing ASR Rule Value(s):
+```
 Rule 0 GUID: 01443614-cd74-433a-b99e-2ecdc07bfc25 is set to value Audit
 Rule 1 GUID: 26190899-1602-49e8-8b27-eb1d0a1ce869 is set to value Warn
 Rule 2 GUID: 3b576869-a4ec-4529-8536-b80a7769e899 is set to value Audit
@@ -37,18 +38,21 @@ Rule 12 GUID: d1e49aac-8f56-4280-b9ba-993a6d77406c is set to value Audit
 Rule 13 GUID: d3e037e1-3eb8-44c8-a917-57927947596d is set to value Block
 Rule 14 GUID: d4f940ab-401b-4efc-aadc-ad5f3c50688a is set to value Warn
 Rule 15 GUID: e6db77e5-3df2-4cf1-b95a-636979351e5b is set to value Audit
+```
 
 In a perfect world you set all of them to block, but sometimes you run into user issues that require some tweaks.
+
+### Intune GUI Configuration
 
 In Intune, the settings above (minus the "rule in question" one set via PowerShell) look like this screenshot: ![ASR Script Config in Defender Example](Microsoft-Defender-ASR-Output-Example.png)
 
 ## From NinjaRMM
 This script works with Script Variables as well. See screenshot for the ones I have configured, which are:
 
-- ASR ID [text] (default is `56a863a9-875e-4185-98a7-b882c64b5ce5`)
-- Mode [Drop-down] with values ‘`Enable`’,’`Disabled`’,’`AuditMode`’,’`Warn`’ (`Enable` is default)
-- Verbose [CheckBox] (default is `Checked`)
-- Report Only [CheckBox] (default is `Unchecked`)
+- **ASR ID** [text] (default is `56a863a9-875e-4185-98a7-b882c64b5ce5`)
+- **Mode** [Drop-down] with values ‘`Enable`’,’`Disabled`’,’`AuditMode`’,’`Warn`’ (`Enable` is default)
+- **Verbose** [CheckBox] (default is `Checked`)
+- **Report Only** [CheckBox] (default is `Unchecked`)
 
 ![NinjaRMM Script Variables Screenshot](Microsoft-Defender-ASR-ScriptVariables.png)
 
