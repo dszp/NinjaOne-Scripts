@@ -1,4 +1,4 @@
-# Windows Defender ASR Rule Docs
+# Configure Windows Defender ASR Rule and Report Current ASR Rules
 Windows Defender Attack Surface Reduction rules, _which only work when Defender is the primary antivirus on a system,_ allow you to enforce or audit additional security rules that may cause problems but may also provide extra protection. These are generally configured via Intune policies, but the "Block abuse of exploited vulnerable signed drivers" rule is, currently, only available via registry or GPO or PowerShell and not in the "Configuration settings" of an Intune profile's GUI like many other ASR rules.
 
 To that end, I assembled a quick script called [Set-MicrosoftASR-Rule.ps1](Set-MicrosoftASR-Rule.ps1) that (by default, can be overridden) sets the above rule to `Enable` (block) mode via PowerShell. It also reports on the state of any other ASR rules on a system by GUID, either using the `-ReportOnly` flag (makes no changes) or the `-Verbose` flag that reports on all while adjusting one.
