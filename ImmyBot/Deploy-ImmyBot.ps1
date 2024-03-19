@@ -250,6 +250,27 @@ function Install-ImmyBot {
 
   $url = "https://$Tenant.immy.bot/plugins/api/v1/1/installer/latest-download"
   $ADDR = "https://$Tenant.immy.bot/plugins/api/v1/1"
+  # Ensure a secure TLS version is used.
+  $ProtocolsSupported = [enum]::GetValues('Net.SecurityProtocolType')
+  if ( ($ProtocolsSupported -contains 'Tls13') -and ($ProtocolsSupported -contains 'Tls12') ) {
+    # Use only TLS 1.3 or 1.2
+    [Net.ServicePointManager]::SecurityProtocol = (
+        [Enum]::ToObject([Net.SecurityProtocolType], 12288) -bOR [Enum]::ToObject([Net.SecurityProtocolType], 3072)
+    )
+  } else {
+    # Use only 1.2
+    try {
+        # In certain .NET 4.0 patch levels, SecurityProtocolType does not have a TLS 1.2 entry.
+        # Rather than check for 'Tls12', we force-set TLS 1.2 and catch the error if it's truly unsupported.
+        [Net.ServicePointManager]::SecurityProtocol = [Enum]::ToObject([Net.SecurityProtocolType], 3072)
+    } catch {
+        $msg = $_.Exception.Message
+        $err = "ERROR: Unable to use a secure version of TLS. Please verify Hotfix KB3140245 is installed."
+        Write-Host "$err : $msg"
+        Write-Error "$err : $msg"
+        exit 1
+    }
+  }
   # The following code is the ImmyBot PowerShell deployment separated into lines for readability and with the ID and KEY variables swapped into the arguments:
   $ErrorActionPreference = "Stop"
   $InstallerFile = [io.path]::ChangeExtension([io.path]::GetTempFileName(), ".msi")
