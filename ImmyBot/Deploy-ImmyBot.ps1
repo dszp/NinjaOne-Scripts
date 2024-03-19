@@ -192,7 +192,7 @@ function Check-ImmyBotIDandKey {
     }
   }
   if([string]::IsNullOrWhiteSpace($IDandKey)) {
-    $IDandKey = "$ID=$ID KEY=$KEY"
+    $IDandKey = "ID=$($global:ID) KEY=$($global:KEY)"
   }
   Write-Verbose "IDandKey Value: $IDandKey"
 
