@@ -88,14 +88,12 @@ foreach ($param in $switchParameters.keys) {
 ### END PROCESS SCRIPT VARIABLES
 
 ##### CONFIG
-# $BaseURL ='portaluseast2.mycybercns.com'    # Adjust if your instance is not on portaluseast2
-
 if (!$CompanyName) {
-    # For -e argument, CyberCNS Company Instance Name, if not passed in via arguement
+    # Default to the Ninja Organization Name, if not passed in via argument
     $CompanyName = $env:NINJA_ORGANIZATION_NAME
 }
 if (!$LocationName) {
-    # For -e argument, CyberCNS Company Instance Name, if not passed in via arguement
+    # Default to the Ninja Organization Location Name, if not passed in via argument
     $LocationName = $env:NINJA_LOCATION_NAME
 }
 
