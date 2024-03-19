@@ -43,6 +43,8 @@
     Deploy-ImmyBot.ps1 -Info
     Deploy-ImmyBot.ps1 -Uninstall
 
+
+Version 0.5.2 - 2024-03-19 - by David Szpunar - Adjust $ID and $KEY values to fix more similar typos, and add TLS version enforcement
 Version 0.5.1 - 2024-03-15 - by David Szpunar - Adjust $ID and $KEY values to fix typos that caused issues for non-custom-field parameters thanks to @HiTechPhilip
 Version 0.5.0 - 2024-02-19 - by David Szpunar - Refactor, add -Tenant, -Upgrade, -Force, -Uninstall, -Info switches and cloud version check function, documentation
 Version 0.0.5 - 2023-11-28 - by David Szpunar - Review and update for new ImmyBot version, minor adjustments
