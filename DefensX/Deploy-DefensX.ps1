@@ -5,7 +5,7 @@
 .DESCRIPTION
     Install, Upgrade, or Uninstall DefenseX provided a valid DefensX KEY from the PowerShell Deployment for a given tenant with KEY provided via parameter, environment variables, or NinjaRMM Custom Field.
   
-    With no parameters, installation will be attempted, but only if the DefenseX servies does not exist. Version will be ignored without the -Upgrade parameter.
+    With no parameters, installation will be attempted, but only if the DefenseX service does not exist. Version will be ignored without the -Upgrade parameter.
 
     This script uses NinjaRMM Custom Fields to get the KEY by default (see CONFIG), but they can be passed in as parameters or Script Variables (environment variables) if desired.
 
@@ -13,7 +13,7 @@
     
     As long as you pass in a -KEY parameter, or provide a KEY environment variable, this script will function entirely separate from NinjaRMM.
     
-    The additional parameters in the param() array that are not indidually doucumented are all switches that are true if they exist and false if they are not provided. They can be checkboxes in NinjaRMM Script Variables (environment variables) or passed in on the command line, and will be converted to a 1 or 0 and passed to the appropriate argument to the MSI installer, as defined in the DefensX documentation and user interface. The argument names are simplified for ease of typing, and don't correspond preciesly to the MSI arguments, but the mapping should be relatively simple to understand.
+    The additional parameters in the param() array that are not individually documented are all switches that are true if they exist and false if they are not provided. They can be checkboxes in NinjaRMM Script Variables (environment variables) or passed in on the command line, and will be converted to a 1 or 0 and passed to the appropriate argument to the MSI installer, as defined in the DefensX documentation and user interface. The argument names are simplified for ease of typing, and don't correspond precisely to the MSI arguments, but the mapping should be relatively simple to understand.
  
 .PARAMETER KEY
     If this parameter is passed to the DefensX PowerShell Deployment Script, it will be used instead of NinjaRMM Custom Fields. This key is located in the the DefensX Customer Console under Policies->Policy Groups->Deployments->RMM button, then turn on "Use Short Deployment Key" and then get the 16-character key at the very end of the command after the equals sign. The parameter should also accept the default 224-character key, but the 16-character short key is recommended. Required for install or upgrade unless supplied via $env:KEY (like via Ninja Script Variables) or NinjaRMM Custom Field. Not required for uninstall or Info check.
