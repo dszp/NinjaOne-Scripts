@@ -49,6 +49,9 @@ Deploy-DefensX.ps1 -Upgrade
 
 ## Version History
 Version 0.1.0 - 2024-03-21 - by David Szpunar - Initial released version
+
 Version 0.0.3 - 2024-03-21 - by David Szpunar - Updated comments and formatting to better describe where to obtain the KEY, refactor some logic (internal)
+
 Version 0.0.2 - 2024-03-21 - by David Szpunar - Updated comment docs and made slight code adjustments (internal)
+
 Version 0.0.1 - 2024-03-20 - by David Szpunar - Initial version by David Szpunar (internal)
