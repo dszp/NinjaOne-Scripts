@@ -39,7 +39,7 @@ ADDED by David Szpunar on 2024-03-21 v0.0.3:
 	and
 	https://discord.com/channels/676451788395642880/1206063878564352081/1217222521779261572
 	These changes avoid backups if just checking and not also attempting to make changes, and adjust some logging messages to be more clear in filtering results.
-	Search the output field for the word "RERUN" to determine which devicers may need to have the script re-run to confirm they are fixed.
+	Search the output field for the word "RERUN" to determine which devices may need to have the script re-run to confirm they are fixed.
 	Thanks for these changes!
 
 A discussion of this script and its output is located in the NinjaOne Discord server at: https://discord.com/channels/676451788395642880/1206063878564352081
