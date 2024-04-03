@@ -38,10 +38,10 @@ This script accepts the following arguments, which may also be set as Custom Fie
         this will be run automatically before installing the V3 agent.
 
     -Uninstall
-        Use this switch or Script Variables Checkbox to attempt to locate the uinstall.bat file inside the agent installation folder and run it if it exists, 
+        Use this switch or Script Variables Checkbox to attempt to locate the uninstall.bat file inside the agent installation folder and run it if it exists, 
         to remove the installed agent. If the batch file does not exist, nothing is done unless the -Force switch is also provided, in which case the contents 
         of the batch script on an existing system has been embedded in this script (as of 2023-11-10) and will be executed anyway to attempt to remove the 
-        agent anyway via the internal unisntall method.
+        agent anyway via the internal uninstall method.
     
 Output from each command is provided for feedback. Every parameter or switch can be set via Script Variables, and the first three also support Custom Fields. 
 With minor adjustment, they could also use NinjaRMM Custom Documentation Fields.
@@ -56,11 +56,11 @@ Version 0.1.3 - 2023-11-13 - Fix logic bug in new Script Variables handling meth
 Version 0.1.4 - 2023-12-07 - Update to support removing the v4 agent if it exists
 Version 0.1.5 - 2024-03-28 - Add a different supported TLS version check before download to attempt and fix
 
-NOTE: This script and all options have not been tested with ConnectSecure's latest v4 release, though installation seems to be working fine 
-with light testing. Due to substantial changes since v4's original release to today's beta version, there could be unknown changes and bugs 
-that I'm not aware of, even though it appears to be working normally. When I eventually test more thoroughly I will remove this note. 
-Feedback from anyone using/testing the script is welcome! This v3 version likely works fine but it does have a v4 removal part that 
-not been tested, if you pass in that option.
+NOTE: This script and all options have not been fully and exhaustively tested with ConnectSecure's latest v4 release, though installation 
+seems to be working fine with light testing. Due to substantial changes since v4's original release to today's beta version, 
+there could be unknown changes and bugs that I'm not aware of, even though it appears to be working normally. When I eventually 
+test more thoroughly I will remove this note. Feedback from anyone using/testing the script is welcome! This v3 version likely 
+works fine but it does have a v4 removal part that not been tested, if you pass in that option.
 
 THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
 LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
