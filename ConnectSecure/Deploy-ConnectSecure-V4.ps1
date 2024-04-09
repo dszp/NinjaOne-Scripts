@@ -145,7 +145,7 @@ if($Uninstall) {
         }
     }
     $alternativeScript = @'
-echo Running alternative cleanuip script
+echo Running alternative cleanup script
 @echo off
 ping 127.0.0.1 -n 6 > nul
 cd "C:\PROGRA~2"
@@ -220,7 +220,7 @@ if($UninstallPrevious) {
         }
     }
     $alternativeScript = @'
-echo Running alternative cleanuip script
+echo Running alternative cleanup script
 @echo off
 ping 127.0.0.1 -n 6 > nul
 cd "C:\Program Files (x86)"
