@@ -40,7 +40,7 @@ param (
 
 
 
-### PROCESS NINJRAMM SCRIPT VARIABLES AND ASSIGN TO NAMED SWITCH PARAMETERS
+### PROCESS NINJRAMM SCRIPT VARIABLES AND ASSIGN TO NAMED BOOLEAN SWITCH or STRING PARAMETERS
 # Get all named parameters and overwrite with any matching Script Variables with value of 'true' from environment variables
 # Otherwise, if not a checkbox ('true' string), assign any other Script Variables provided to matching named parameters
 $switchParameters = (Get-Command -Name $MyInvocation.InvocationName).Parameters;
