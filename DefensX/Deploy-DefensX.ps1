@@ -56,6 +56,7 @@
     https://github.com/dszp/NinjaOne-Scripts/tree/main/DefensX
 
 .NOTES
+Version 0.1.1 - 2024-05-29 - by David Szpunar - Added Chromium, Brave, and Vivaldi private browser configuration parameters in addition to exisitng Chrome, Edge, and Firefox
 Version 0.1.0 - 2024-03-21 - by David Szpunar - Initial released version
 Version 0.0.3 - 2024-03-21 - by David Szpunar - Updated comments and formatting to better describe where to obtain the KEY, refactor some logic (internal)
 Version 0.0.2 - 2024-03-21 - by David Szpunar - Updated comment docs and made slight code adjustments (internal)
@@ -71,6 +72,9 @@ param(
     [switch] $EnablePrivateChrome,
     [switch] $EnablePrivateEdge,
     [switch] $EnablePrivateFirefox,
+    [switch] $EnablePrivateChromium,
+    [switch] $EnablePrivateBrave,
+    [switch] $EnablePrivateVivaldi,
     [switch] $DisableLogonUser,
     [switch] $EnableIamUser,
     [switch] $HideFromAddRemove,
@@ -246,6 +250,24 @@ function Install-DefensX {
         $PRIV_FIREFOX = 1
     }
 
+    if($EnablePrivateChromium) {
+        $PRIV_CHROMIUM = 0
+    } else {
+        $PRIV_CHROMIUM = 1
+    }
+
+    if($EnablePrivateBrave) {
+        $PRIV_BRAVE = 0
+    } else {
+        $PRIV_BRAVE = 1
+    }
+
+    if($EnablePrivateVivaldi) {
+        $PRIV_VIVALDI = 0
+    } else {
+        $PRIV_VIVALDI = 1
+    }
+
     if($DisableLogonUser) {
         $ENABLE_LOGON_USER = 0
     } else {
@@ -306,7 +328,7 @@ function Install-DefensX {
     $InstallerFile = [io.path]::ChangeExtension([io.path]::GetTempFileName(), ".msi")
     (New-Object System.Net.WebClient).DownloadFile($url, $InstallerFile)
     $InstallerLogFile = [io.path]::ChangeExtension([io.path]::GetTempFileName(), ".log")
-    $Arguments = " /c msiexec /i `"$InstallerFile`" /qn /norestart /l*v `"$InstallerLogFile`" KEY=$Key ENABLE_LOGON_USER=$ENABLE_LOGON_USER ENABLE_IAM_USER=$ENABLE_IAM_USER EDGE_DISABLE_PRIVATE_WINDOW=$PRIV_EDGE CHROME_DISABLE_PRIVATE_WINDOW=$PRIV_CHROME FIREFOX_DISABLE_PRIVATE_WINDOW=$PRIV_FIREFOX DISABLE_UNINSTALL=$DISABLE_UNINSTALL SYSTEM_COMPONENT=$SYSTEM_COMPONENT /q"
+    $Arguments = " /c msiexec /i `"$InstallerFile`" /qn /norestart /l*v `"$InstallerLogFile`" KEY=$Key ENABLE_LOGON_USER=$ENABLE_LOGON_USER ENABLE_IAM_USER=$ENABLE_IAM_USER EDGE_DISABLE_PRIVATE_WINDOW=$PRIV_EDGE CHROME_DISABLE_PRIVATE_WINDOW=$PRIV_CHROME FIREFOX_DISABLE_PRIVATE_WINDOW=$PRIV_FIREFOX BRAVE_DISABLE_PRIVATE_WINDOW=$PRIV_BRAVE VIVALDI_DISABLE_PRIVATE_WINDOW=$PRIV_VIVALDI CHROMIUM_DISABLE_PRIVATE_WINDOW=$PRIV_CHROMIUM DISABLE_UNINSTALL=$DISABLE_UNINSTALL SYSTEM_COMPONENT=$SYSTEM_COMPONENT /q"
     Write-Verbose "Installer Arguments: $Arguments"
     Write-Host "Installer Log File: $InstallerLogFile"
     $Process = Start-Process -Wait cmd -ArgumentList $Arguments -PassThru
