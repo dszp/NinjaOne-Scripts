@@ -296,7 +296,7 @@ if(!$CompanyID) {
 # if(!$Uninstall) {
 Write-Host "Company ID from $customCompanyID Custom Doc Field or passed to script: $CompanyID"
 
-if ($CompanyID -is [int] -and $CompanyID -ge 100 -and $CompanyID -le 99999) {
+if ($CompanyID -is [int] -and $CompanyID -ge 100 -and $CompanyID -le 999999) {
     write-host "Company ID passed basic format validation..."
 } else {
     write-host "No Company ID value provided or invalid format, correctly set via script field, arguement, or custom field."
