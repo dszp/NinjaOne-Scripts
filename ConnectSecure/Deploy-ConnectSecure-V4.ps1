@@ -63,7 +63,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 param(
     [Parameter(Mandatory=$false)][int] $CompanyID = (Ninja-Property-Get configureconnectsecurecompanyid),
     [Parameter(Mandatory=$false)][string] $TenantID = $env:tenentid,
-    [Parameter(Mandatory=$false)][string] $userSecret = $env:$userSecret,
+    [Parameter(Mandatory=$false)][string] $userSecret = $env:userSecret,
     [switch] $Once,
     [switch] $Force,
     [switch] $UninstallPrevious,
