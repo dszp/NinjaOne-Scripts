@@ -61,8 +61,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #>
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory=$false)][int] $CompanyID = $env:companyid,
+    [Parameter(Mandatory=$false)][int] $CompanyID = (Ninja-Property-Get configureconnectsecurecompanyid),
     [Parameter(Mandatory=$false)][string] $TenantID = $env:tenentid,
+    [Parameter(Mandatory=$false)][string] $userSecret = $env:$userSecret,
     [switch] $Once,
     [switch] $Force,
     [switch] $UninstallPrevious,
@@ -94,6 +95,12 @@ foreach ($param in $switchParameters.keys) {
 if([string]::IsNullOrEmpty($TenantID) -or [string]::IsNullOrWhiteSpace($TenantID)) {
     $TenantID = '000000000000000000'    # Numeric Tenant ID string from the deployment script
 }
+
+# Manually set the user secret for CyberCNS V4 instance, if not passed in via variable or parameter already:
+if([string]::IsNullOrEmpty($userSecret) -or [string]::IsNullOrWhiteSpace($userSecret)) {
+    $userSecret = '000000000000000000'    # Numeric User secret string from the deployment script
+}
+
 
 # The name of your NinjaRMM Documentation document that contains the custom field below, assumes that there is both a template 
 # and a single instance of the document with the same name (otheriwse change to Ninja-Property-Docs-Get calls below with separate 
@@ -289,7 +296,7 @@ if(!$CompanyID) {
 # if(!$Uninstall) {
 Write-Host "Company ID from $customCompanyID Custom Doc Field or passed to script: $CompanyID"
 
-if ($CompanyID -is [int] -and $CompanyID -ge 100 -and $CompanyID -le 999999) {
+if ($CompanyID -is [int] -and $CompanyID -ge 100 -and $CompanyID -le 99999) {
     write-host "Company ID passed basic format validation..."
 } else {
     write-host "No Company ID value provided or invalid format, correctly set via script field, arguement, or custom field."
@@ -350,7 +357,7 @@ if($Once) {
 $source = (Invoke-RestMethod -Method "Get" -URI "https://configuration.myconnectsecure.com/api/v4/configuration/agentlink?ostype=windows")
 $destination = "$InstallLocation\$InstallFilename.exe"
 Invoke-WebRequest -Uri $source -OutFile $destination
-$exitCode = [Diagnostics.Process]::Start($destination,"-c $CompanyID -e $TenantID -i").WaitForExit(600)
+$exitCode = [Diagnostics.Process]::Start($destination,"-c $CompanyID -e $TenantID -j $userSecret -i").WaitForExit(600)
 if($exitCode -eq 0) {
     Write-Host "Installation was initiated."
 } else {
