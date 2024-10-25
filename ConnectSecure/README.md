@@ -7,8 +7,6 @@ Both [scripts](https://github.com/dszp/NinjaOne-Scripts/tree/main/ConnectSecure)
 - [Docs for Version 3 Deployment Script](#platform-version-3)
 - [Warranty](#warranty)
 
-***NOTE:* These scripts and all options have not been fully and exhaustively tested with ConnectSecure's latest v4 release, though installation seems to be working fine with light testing. Due to substantial changes since v4's original release to today's beta version, there could be unknown changes and bugs that I'm not aware of, even though it appears to be working normally. When I eventually test more thoroughly I will remove this note. Feedback from anyone using/testing the script is welcome!**
-
 # Platform Version 4
 The [Deploy-ConnectSecure-V4.ps1](https://github.com/dszp/NinjaOne-Scripts/blob/main/ConnectSecure/Deploy-ConnectSecure-V4.ps1) script will attempt to deploy (or remove)  the ConnectSecure Vulnerability Scan Agent to Windows systems. Basic usage documentation is below or at the top of the script:
 
