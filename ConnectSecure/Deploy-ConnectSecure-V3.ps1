@@ -1,6 +1,13 @@
 <# Deploy-ConnectSecure-V3.ps1
 Deploy (or Remove) ConnectSecure (CyberCNS) Lightweight Agent to Windows systems.
 
+NOTE as of 2024-10-25: Version 3 of ConnectSecure/CyberCNS is deprecated and will be shut down at the end of 2024. Please use version 4 instead. This script is available 
+for reference or temporary use only prior to migration. The Version 4 deployment script has an option to remove the version 3 agent if it is installed. 
+The connectsecureCompanyID custom field name (documentation or regular) for NinjaOne is reused by the Version 4 script but has a DIFFERENT value in each 
+system. Please keep this in mind; you may wish to use a Script Variable or parameter or other method with this v3 script to avoid conflicts with v4 
+configuration prior to retirement of v3, or while you're moving to deploy v4. You can also rename the custom field in the $customCompanyID variable in 
+either script to a non-conflicting name.
+
 SOURCE: https://github.com/dszp/NinjaOne-Scripts/tree/main/ConnectSecure
 
 Running this script without arguments will attempt to install the agent using the EXE installer and the Company ID, Client ID, and Client Secret located in 
