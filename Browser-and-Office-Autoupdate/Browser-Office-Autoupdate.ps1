@@ -6,6 +6,7 @@ Version 0.0.2 - 2024-01-16 - Added Office Click-To-Run Autoupdate Blocker Remova
 Version 0.0.3 - 2024-01-16 - Adjusted Office Click-To-Run to check for UpdatesEnabled to equal "False" and update to True (rather than deleting if exists)
 Version 0.0.4 - 2024-02-10 - Adjusted Firefox check to accept forced update settings (but report) so as to not fail when autoupdate is configured.
 Version 0.0.5 - 2024-02-20 - Added some Write-Verbose statements to show changes NOT being made, if called with -Verbose parameter.
+Version 0.0.6 - 2024-10-24 - Resolved bug in Chrome update with typo in registry key name reported by GitHub user @lyttek
 
 LICENSE: Provided without warranty or guarantee of fitness for any purposes. Code freely available for use or reuse.
 
@@ -110,7 +111,7 @@ if ((Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Policies\Google\Update" -Name "
     $AreUpdatesDisabled++
     if ($AllowAllUpdates -or $AllowChromeUpdate) {
         Write-Host "Setting Chrome Update registry key Update{4DC8B4CA-1BDA-483E-B5FA-D3C12E15B62D} to enabled."
-        Set-ItemProperty "HKLM:\SOFTWARE\Policies\Google\Update" "Update{4DC8B4CA-1BDA-483E-B5FA-D3C12E15B62D} key" 1
+        Set-ItemProperty "HKLM:\SOFTWARE\Policies\Google\Update" "Update{4DC8B4CA-1BDA-483E-B5FA-D3C12E15B62D}" 1
         $AreUpdatesDisabled--
     }
 }
