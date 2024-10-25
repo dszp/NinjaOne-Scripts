@@ -35,8 +35,7 @@ A Script Variable version will take precedence, followed by parameter, followed 
 if those are all blank.
 
 The value is an alphanumeric string that ConnectSecure's Agent Download page provides as the value of the "-j" parameter inside the deployment 
-script for Windows agents. See example screenshot in the documentation at 
-https://cybercns.atlassian.net/wiki/spaces/CVB/pages/2111242438/How+To+Install+V4+Agent+Using+RMM+Script#Obtain-Company-ID%2C-Tenant-ID%2C-and-User-Secret-Information
+script for Windows agents. See [example screenshot in the documentation](https://cybercns.atlassian.net/wiki/spaces/CVB/pages/2111242438/How+To+Install+V4+Agent+Using+RMM+Script#Obtain-Company-ID%2C-Tenant-ID%2C-and-User-Secret-Information).
 
 The User Secret ties the installation to the user who generated the installer on the ConnectSecure back-end system, but it may be reused for all 
 installations without restriction just like the TenantID, only the CompanyID will be different for each company being scanned/managed. 
