@@ -47,6 +47,7 @@ Version 0.1.2 - 2023-11-13 - Switched to processing Switch Variable Checkboxes a
 Version 0.1.3 - 2023-11-13 - Fix logic bug in new Script Variables handling method
 Version 0.2.0 - 2023-12-07 - Update to support ConnectSecure v4 beta and removing the v3 agent if it exists
 Version 0.2.1 - 2024-03-28 - Add a different supported TLS version check before download to attempt and fix
+Version 0.2.2 - 2024-10-25 - Add support for new -j, user secret, parameter described here -  https://cybercns.atlassian.net/wiki/spaces/CVB/pages/2111242438/How+To+Install+V4+Agent+Using+RMM+Script
 
 NOTE: This script and all options have not been fully and exhaustively tested with ConnectSecure's latest v4 release, though installation 
 seems to be working fine with light testing. Due to substantial changes since v4's original release to today's beta version, 
@@ -63,6 +64,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 param(
     [Parameter(Mandatory=$false)][int] $CompanyID = $env:companyid,
     [Parameter(Mandatory=$false)][string] $TenantID = $env:tenentid,
+    [Parameter(Mandatory=$false)][string] $userSecret = $env:userSecret,
     [switch] $Once,
     [switch] $Force,
     [switch] $UninstallPrevious,
@@ -94,6 +96,9 @@ foreach ($param in $switchParameters.keys) {
 if([string]::IsNullOrEmpty($TenantID) -or [string]::IsNullOrWhiteSpace($TenantID)) {
     $TenantID = '000000000000000000'    # Numeric Tenant ID string from the deployment script
 }
+
+
+
 
 # The name of your NinjaRMM Documentation document that contains the custom field below, assumes that there is both a template 
 # and a single instance of the document with the same name (otheriwse change to Ninja-Property-Docs-Get calls below with separate 
@@ -279,6 +284,7 @@ If ( !$Force -and (Get-Service $ServiceName -ErrorAction SilentlyContinue) ) {
     exit 0
 }
 
+# If no script variable was passed, check Ninja Documentation for the CompanyID
 if(!$CompanyID) {
     if ($(Get-Command $CheckNinjaCommand -ErrorAction SilentlyContinue).Name -like $CheckNinjaCommand -and -not [string]::IsNullOrEmpty($customCompanyID) -and -not [string]::IsNullOrWhiteSpace($customCompanyID)) {
         Write-Host "Attempting to get Documentation Custom Field $customCompanyID from the $CustomNinjaDocumentation document."
@@ -286,10 +292,16 @@ if(!$CompanyID) {
     }
 }
 
-# if(!$Uninstall) {
-Write-Host "Company ID from $customCompanyID Custom Doc Field or passed to script: $CompanyID"
+# If Ninja Documentation did not return a value, check Ninja Custom Fields
+if (!$CompanyID){
+    Write-Host "Ninja Documentation value not found. Trying Ninja Custom Field."
+    $CompanyID = (Ninja-Property-Get $customCompanyID)
+}
 
-if ($CompanyID -is [int] -and $CompanyID -ge 100 -and $CompanyID -le 9999) {
+# if(!$Uninstall) {
+Write-Host "Company ID from $customCompanyID Custom Doc Field, Ninja Custom Field, or passed to script: $CompanyID"
+
+if ($CompanyID -is [int] -and $CompanyID -ge 100 -and $CompanyID -le 999999) {
     write-host "Company ID passed basic format validation..."
 } else {
     write-host "No Company ID value provided or invalid format, correctly set via script field, arguement, or custom field."
@@ -301,6 +313,12 @@ if ($TenantID -Match "^[a-f0-9]{18}$") {
 } else {
     write-host "No Tenant ID value provided or invalid format, correctly set via script config, arguement, or custom field."
     write-host "Format should be: ################## (18 decimal numbers)"
+    exit 1
+}
+if ($userSecret -ne "") {
+    Write-Host "User Secret exists and is not null..."
+} else {
+    Write-Host "No User secret provided. This new field is mandatory."
     exit 1
 }
 
@@ -350,7 +368,7 @@ if($Once) {
 $source = (Invoke-RestMethod -Method "Get" -URI "https://configuration.myconnectsecure.com/api/v4/configuration/agentlink?ostype=windows")
 $destination = "$InstallLocation\$InstallFilename.exe"
 Invoke-WebRequest -Uri $source -OutFile $destination
-$exitCode = [Diagnostics.Process]::Start($destination,"-c $CompanyID -e $TenantID -i").WaitForExit(600)
+$exitCode = [Diagnostics.Process]::Start($destination,"-c $CompanyID -e $TenantID -j $userSecret -i").WaitForExit(600)
 if($exitCode -eq 0) {
     Write-Host "Installation was initiated."
 } else {
