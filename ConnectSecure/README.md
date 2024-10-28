@@ -35,7 +35,8 @@ A Script Variable version will take precedence, followed by parameter, followed 
 if those are all blank.
 
 The value is an alphanumeric string that ConnectSecure's Agent Download page provides as the value of the "-j" parameter inside the deployment 
-script for Windows agents. See [example screenshot in the documentation](https://cybercns.atlassian.net/wiki/spaces/CVB/pages/2111242438/How+To+Install+V4+Agent+Using+RMM+Script#Obtain-Company-ID%2C-Tenant-ID%2C-and-User-Secret-Information).
+script for Windows agents (select the whole string following the "-j" in the command that's surrounded by spaces, NOT including the "-j" itself or the spaces). 
+See [example screenshot in the documentation](https://cybercns.atlassian.net/wiki/spaces/CVB/pages/2111242438/How+To+Install+V4+Agent+Using+RMM+Script#Obtain-Company-ID%2C-Tenant-ID%2C-and-User-Secret-Information).
 
 The User Secret ties the installation to the user who generated the installer on the ConnectSecure back-end system, but it may be reused for all 
 installations without restriction just like the TenantID, only the CompanyID will be different for each company being scanned/managed. 
@@ -54,7 +55,8 @@ Use this switch or Script Variables Checkbox to attempt to remove the V3 agent i
 ### Uninstall
 Use this switch or Script Variables Checkbox to attempt to locate the `uninstall.bat` file inside the agent installation folder and run it if it exists, to remove the installed agent. If the batch file does not exist, nothing is done unless the `-Force` switch is also provided, in which case the contents of the batch script on an existing system has been embedded in this script (as of 2023-11-10) and will be executed anyway to attempt to remove the agent anyway via the internal uninstall method.
 
-Output from each command is provided for feedback. Every parameter or switch can be set via Script Variables, and the first three also support Custom Fields. With minor adjustment, they could also use NinjaRMM Custom Documentation Fields.
+Output from each command is provided for feedback. Every parameter or switch can be set via Script Variables, and the first one also supports a NinjaOne Custom 
+Field, or NinjaOne Custom Documentation Field, that will only be used if another value is not provided.
 
 ## Version History
 - Version 0.0.1 - 2023-10-17 - Initial Version by David Szpunar
@@ -67,6 +69,7 @@ Output from each command is provided for feedback. Every parameter or switch can
 - Version 0.2.2 - 2024-10-25 - Add support for new -j, user secret, parameter described here -  https://cybercns.atlassian.net/wiki/spaces/CVB/pages/2111242438/How+To+Install+V4+Agent+Using+RMM+Script
 - Version 0.2.3 - 2024-10-25 - Add additional error checking for User Secret, add custom field configuration for it, and add hardcoded override for User Secret as an option
 - Version 0.3.0 - 2024-10-25 - Update documentation at top of script to cover User Secret and provide additional clarifications/details generally.
+- Version 0.3.1 - 2024-10-28 - Update documentation to clarify how to select the User Secret from the ConnectSecure Agent Download page.
 
 # Platform Version 3
 The [Deploy-ConnectSecure-V3.ps1](https://github.com/dszp/NinjaOne-Scripts/blob/main/ConnectSecure/Deploy-ConnectSecure-V3.ps1) script will attempt to deploy (or remove)  the ConnectSecure Vulnerability Scan Agent to Windows systems. Basic usage documentation is below or at the top of the script.

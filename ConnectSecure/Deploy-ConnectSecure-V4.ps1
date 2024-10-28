@@ -10,15 +10,30 @@ Review the CONFIG section of the script before deploying!
 
 This script accepts the following arguments, which may also be set as Custom Fields or Script Variables:
     -CompanyID
-        This is the ConnectSecure Company ID. Can pass it or hardcode it under the CONFIG section. Usually 3 digits, might be 4 in larger installs. 
-        A Script Variable version will take precedence, followed by parameter, followed by Documentation Custom Field if those are both blank.
+        This is the ConnectSecure Company ID. Can pass it or hardcode it under the CONFIG section, or use Ninja Script Variable or Custom Fields. It's a number 
+        3 to 5 digits long. This variable is unique for each customer managed in the ConnectSecure environment.
+        A Script Variable version will take precedence, followed by parameter, followed by Documentation Custom Field, followed by the standard Custom Field, 
+        if those are all blank. The default NinjaOne field name is "connectsecureCompanyId" unless you customize the field name in the CONFIG section.
 
     -TenantID
         This value is your ConnectSecure tenant ID, global for your entire instance. Can pass it or hardcode it under the CONFIG section. Should be 18 digits.
+    
+    -UserSecret
+        This is the ConnectSecure User Secret. Can pass it or hardcode it under the CONFIG section. You can also provide this with the NinjaOne Custom Field 
+        or NinjaOne Custom Documentation Field if you configure the field name under the CONFIG section as the value of the #customUserSecret variable.
+        A Script Variable version will take precedence, followed by parameter, followed by Documentation Custom Field, followed by the standard Custom Field, 
+        if those are all blank.
+        The value is an alphanumeric string that ConnectSecure's Agent Download page provides as the value of the "-j" parameter inside the deployment 
+        script for Windows agents (select the whole string following the "-j" in the command that's surrounded by spaces, NOT including the "-j" itself or the spaces). 
+        See example screenshot in the documentation at 
+        https://cybercns.atlassian.net/wiki/spaces/CVB/pages/2111242438/How+To+Install+V4+Agent+Using+RMM+Script#Obtain-Company-ID%2C-Tenant-ID%2C-and-User-Secret-Information
+        The User Secret ties the installation to the user who generated the installer on the ConnectSecure back-end system, but it may be reused for all 
+        installations without restriction just like the TenantID, only the CompanyID will be different for each company being scanned/managed.
+        The default NinjaOne field name is "connectsecureUserSecret" unless you customize the field name in the CONFIG section.
 
     -Once
         Use this switch to run the vulnerability scan once, without installing the agent permanently on the system. Can also be a Script Variables Checkbox. 
-        This option is not yet implemented or available in v4 yet.
+        **This option is not yet implemented in this script for v4 yet.**
 
     -Force
         Adding this switch or Script Variables Checkbox will either force installation (even if the service already exists) on the endpoint, or alternately, if 
@@ -35,8 +50,8 @@ This script accepts the following arguments, which may also be set as Custom Fie
         of the batch script on an existing system has been embedded in this script (as of 2023-11-10) and will be executed anyway to attempt to remove the 
         agent anyway via the internal uninstall method.
     
-Output from each command is provided for feedback. Every parameter or switch can be set via Script Variables, and the first one also supports a Custom 
-Documentation Field that will only be used if another value is not provided.
+Output from each command is provided for feedback. Every parameter or switch can be set via Script Variables, and the first one also supports a NinjaOne Custom 
+Field, or NinjaOne Custom Documentation Field, that will only be used if another value is not provided.
 
 Source for remove-on-reboot code: https://superuser.com/questions/1700602/using-powershell-to-add-an-entry-to-pendingfilerenameoperations-without-disrup
 
@@ -49,6 +64,8 @@ Version 0.2.0 - 2023-12-07 - Update to support ConnectSecure v4 beta and removin
 Version 0.2.1 - 2024-03-28 - Add a different supported TLS version check before download to attempt and fix
 Version 0.2.2 - 2024-10-25 - Add support for new -j, user secret, parameter described here -  https://cybercns.atlassian.net/wiki/spaces/CVB/pages/2111242438/How+To+Install+V4+Agent+Using+RMM+Script
 Version 0.2.3 - 2024-10-25 - Add additional error checking for User Secret, add custom field configuration for it, and add hardcoded override for User Secret as an option
+Version 0.3.0 - 2024-10-25 - Update documentation at top of script to cover User Secret and provide additional clarifications/details generally.
+Version 0.3.1 - 2024-10-28 - Update documentation to clarify how to select the User Secret from the ConnectSecure Agent Download page.
 
 NOTE: This script and all options have not been fully and exhaustively tested with ConnectSecure's latest v4 release, though installation 
 seems to be working fine with light testing. Due to substantial changes since v4's original release to today's beta version, 
