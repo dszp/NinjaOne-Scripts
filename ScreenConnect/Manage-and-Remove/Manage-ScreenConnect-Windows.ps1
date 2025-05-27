@@ -36,7 +36,7 @@
 
     The Instance IDs are 16-character-long hexidecimal strings that are shown in parenthese after "ScreenConnect Client" in Add/Remove Programs for an installed agent, or in the installation folder path.
 
-    There is no error-checking of trusted/safe inttances, make sure you use the correct 16-character hexidecimal ID and use no spaces in the string, and no special characters other than a comma separator.
+    There is no error-checking of trusted/safe instances, make sure you use the correct 16-character hexidecimal ID and use no spaces in the string, and no special characters other than a comma separator.
   .PARAMETER Uninstall
     If this switch is used, in addition to documenting, the script will uninstall all ScreenConnect Clients on Windows except the instance IDs defined by -Safe or $Safe.
   .PARAMETER ClearCustomHistory
