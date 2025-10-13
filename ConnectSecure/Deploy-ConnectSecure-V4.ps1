@@ -124,7 +124,7 @@ if ([string]::IsNullOrEmpty($userSecret) -or [string]::IsNullOrWhiteSpace($userS
 }
 
 # The name of your NinjaRMM Documentation document that contains the custom field below, assumes that there is both a template 
-# and a single instance of the document with the same name (otheriwse change to Ninja-Property-Docs-Get calls below with separate 
+# and a single instance of the document with the same name (otherwise change to Ninja-Property-Docs-Get calls below with separate 
 # template and instance names):
 $CustomNinjaDocumentation = 'Deployments'
 
